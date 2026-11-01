@@ -1,21 +1,25 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
 import { StoryCaptions } from "./components/StoryCaptions";
 import { VoiceHits } from "./components/VoiceHits";
+import { paper } from "./components/french2d/Draw";
 import {
-  BaguetteMark,
-  BreathPath,
-  DotField,
-  ParisSkyline,
-  RepeatRibbon,
-  ThroatR,
-  WineMark,
-} from "./components/french2d/Marks";
-import {
-  GiantWord,
-  SyllableSplit,
-  VowelRow,
-  WordStack,
-} from "./components/french2d/TypePlate";
+  BaguetteScene,
+  Field,
+  LiaisonJoin,
+  LouvreLight,
+  MarketRow,
+  NasalFace,
+  NasalTrio,
+  NasalWord,
+  ParisMark,
+  RLab,
+  Stage,
+  TasteStill,
+  TitleWord,
+  VinScene,
+  VowelLab,
+  WordTicker,
+} from "./components/french2d/Vectors";
 import { fr01Captions } from "./data/fr01-sons";
 
 export const Fr01Sons: React.FC = () => {
@@ -25,115 +29,103 @@ export const Fr01Sons: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  const scene =
-    frame < 469
-      ? "intro"
-      : frame < 722
-        ? "taste"
-        : frame < 1419
-          ? "vowels"
-          : frame < 1655
-            ? "nasalIntro"
-            : frame < 1911
-              ? "pain"
-              : frame < 2099
-                ? "vin"
-                : frame < 2275
-                  ? "un"
-                  : frame < 2484
-                    ? "nasalRow"
-                    : frame < 3003
-                      ? "r"
-                      : frame < 3460
-                        ? "liaison"
-                        : frame < 3752
-                          ? "baguette"
-                          : frame < 4010
-                            ? "market"
-                            : frame < 4318
-                              ? "art"
-                              : frame < 4551
-                                ? "paris"
-                                : frame < 5122
-                                  ? "repeat"
-                                  : "bye";
-
-  const vowel =
-    frame < 850 ? "A" : frame < 980 ? "É" : frame < 1100 ? "I" : frame < 1220 ? "O" : "U";
-
-  const marketPulse =
-    frame < 3840 ? "beurre" : frame < 3900 ? "fromage" : frame < 3960 ? "marché" : "tomate";
-
-  const artPulse =
-    frame < 4100 ? "Louvre" : frame < 4180 ? "Monet" : "lumière";
-
   return (
-    <AbsoluteFill style={{ backgroundColor: "#080808", opacity: fade }}>
-      <DotField />
-      {scene === "intro" ? <GiantWord word="bonjour" sub="01  ·  les sons" size={150} /> : null}
-      {scene === "taste" ? (
-        <>
-          <GiantWord word="les sons" sub="le français se goûte" />
-          <BaguetteMark />
-          <WineMark />
-        </>
-      ) : null}
-      {scene === "vowels" ? (
-        <VowelRow letters={["A", "É", "I", "O", "U"]} active={vowel} />
-      ) : null}
-      {scene === "nasalIntro" ? (
-        <>
-          <GiantWord word="nasales" sub="par le nez" size={130} />
-          <BreathPath />
-        </>
-      ) : null}
-      {scene === "pain" ? <GiantWord word="pain" sub="p  ·  ɛ̃" size={200} /> : null}
-      {scene === "vin" ? <GiantWord word="vin" sub="v  ·  ɛ̃" size={200} /> : null}
-      {scene === "un" ? <GiantWord word="un" sub="œ̃" size={220} /> : null}
-      {scene === "nasalRow" ? (
-        <VowelRow letters={["pain", "vin", "un"]} active="vin" />
-      ) : null}
-      {scene === "r" ? (
-        <>
-          <ThroatR />
-          <WordStack words={["rue", "Paris", "roux"]} pulse={frame > 2860 ? "roux" : "rue"} />
-        </>
-      ) : null}
-      {scene === "liaison" ? (
-        <SyllableSplit
-          parts={frame < 3232 ? ["LES", "AMIS"] : ["VOUS", "AVEZ"]}
-          glue
-        />
-      ) : null}
-      {scene === "baguette" ? (
-        <>
-          <SyllableSplit parts={["BA", "GUETTE"]} />
-          <BaguetteMark />
-        </>
-      ) : null}
-      {scene === "market" ? (
-        <WordStack
-          words={["beurre", "fromage", "marché", "tomate"]}
-          pulse={marketPulse}
-        />
-      ) : null}
-      {scene === "art" ? (
-        <WordStack words={["Louvre", "Monet", "lumière"]} pulse={artPulse} />
-      ) : null}
-      {scene === "paris" ? (
-        <>
-          <GiantWord word="Paris" sub="Pa-ri  ·  le s se tait" />
-          <ParisSkyline />
-        </>
-      ) : null}
-      {scene === "repeat" ? (
-        <RepeatRibbon
-          words={["pain", "vin", "un", "rue", "Paris", "baguette", "café"]}
-        />
-      ) : null}
-      {scene === "bye" ? (
-        <GiantWord word="à bientôt" sub="02  ·  le marché" size={120} />
-      ) : null}
+    <AbsoluteFill style={{ backgroundColor: paper, opacity: fade }}>
+      <Field />
+      <Sequence durationInFrames={469} name="bonjour" layout="none">
+        <Stage>
+          <TitleWord word="bonjour" note="01  ·  les sons" />
+        </Stage>
+      </Sequence>
+      <Sequence from={469} durationInFrames={253} name="gout" layout="none">
+        <Stage>
+          <TasteStill />
+        </Stage>
+      </Sequence>
+      <Sequence from={722} durationInFrames={697} name="voyelles" layout="none">
+        <Stage>
+          <VowelLab />
+        </Stage>
+      </Sequence>
+      <Sequence from={1419} durationInFrames={236} name="nez" layout="none">
+        <Stage>
+          <NasalFace />
+        </Stage>
+      </Sequence>
+      <Sequence from={1655} durationInFrames={256} name="pain" layout="none">
+        <Stage>
+          <NasalWord word="pain" />
+        </Stage>
+      </Sequence>
+      <Sequence from={1911} durationInFrames={188} name="vin" layout="none">
+        <Stage>
+          <VinScene />
+        </Stage>
+      </Sequence>
+      <Sequence from={2099} durationInFrames={176} name="un" layout="none">
+        <Stage>
+          <NasalWord word="un" />
+        </Stage>
+      </Sequence>
+      <Sequence from={2275} durationInFrames={209} name="nasales" layout="none">
+        <Stage>
+          <NasalTrio />
+        </Stage>
+      </Sequence>
+      <Sequence from={2484} durationInFrames={519} name="r" layout="none">
+        <Stage>
+          <RLab />
+        </Stage>
+      </Sequence>
+      <Sequence from={3003} durationInFrames={229} name="liaison-1" layout="none">
+        <Stage>
+          <LiaisonJoin left="LES" right="AMIS" link="Z" />
+        </Stage>
+      </Sequence>
+      <Sequence from={3232} durationInFrames={228} name="liaison-2" layout="none">
+        <Stage>
+          <LiaisonJoin left="VOUS" right="AVEZ" link="Z" />
+        </Stage>
+      </Sequence>
+      <Sequence from={3460} durationInFrames={292} name="baguette" layout="none">
+        <Stage>
+          <BaguetteScene />
+        </Stage>
+      </Sequence>
+      <Sequence from={3752} durationInFrames={258} name="marche" layout="none">
+        <Stage>
+          <MarketRow
+            items={[
+              { word: "beurre", icon: "butter" },
+              { word: "fromage", icon: "cheese" },
+              { word: "marché", icon: "basket" },
+              { word: "tomate", icon: "tomato" },
+            ]}
+          />
+        </Stage>
+      </Sequence>
+      <Sequence from={4010} durationInFrames={308} name="lumiere" layout="none">
+        <Stage>
+          <LouvreLight words={["Louvre", "Monet", "lumière"]} />
+        </Stage>
+      </Sequence>
+      <Sequence from={4318} durationInFrames={233} name="paris" layout="none">
+        <Stage>
+          <ParisMark />
+        </Stage>
+      </Sequence>
+      <Sequence from={4551} durationInFrames={571} name="repete" layout="none">
+        <Stage>
+          <WordTicker
+            words={["pain", "vin", "un", "rue", "Paris", "baguette", "café"]}
+          />
+        </Stage>
+      </Sequence>
+      <Sequence from={5122} durationInFrames={278} name="bye" layout="none">
+        <Stage>
+          <TitleWord word="à bientôt" note="02  ·  le marché" size={120} />
+        </Stage>
+      </Sequence>
       <div
         style={{
           position: "absolute",
