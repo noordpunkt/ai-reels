@@ -18,6 +18,7 @@ The synth panels follow the original manuals (TB-303: TUNING / CUT OFF FREQ / RE
 GitHub Pages, after the videos are published:
 
 - https://noordpunkt.github.io/ai-reels/
+- https://noordpunkt.github.io/ai-reels/francais/01-sons/
 - https://noordpunkt.github.io/ai-reels/roux/
 - https://noordpunkt.github.io/ai-reels/roland-303/
 - https://noordpunkt.github.io/ai-reels/juno-60/
