@@ -7,3 +7,4 @@ dist
 # Generated video. Keep source clips out of git for now.
 out
 public/*.mp4
+!public/audio/*.wav
