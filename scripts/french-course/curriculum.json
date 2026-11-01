@@ -1,0 +1,76 @@
+{
+  "voice": "Thomas (French (France))",
+  "rate": 155,
+  "lessons": [
+    {
+      "id": "01-sons",
+      "slug": "01-sons",
+      "title": "Les sons",
+      "theme": "Prononciation",
+      "composition": "Fr01Sons"
+    },
+    {
+      "id": "02-marche",
+      "slug": "02-marche",
+      "title": "Le marché",
+      "theme": "Cuisine",
+      "composition": "Fr02Marche"
+    },
+    {
+      "id": "03-paris",
+      "slug": "03-paris",
+      "title": "Paris",
+      "theme": "Villes",
+      "composition": "Fr03Paris"
+    },
+    {
+      "id": "04-impressionnisme",
+      "slug": "04-impressionnisme",
+      "title": "L'impressionnisme",
+      "theme": "Art",
+      "composition": "Fr04Impressionnisme"
+    },
+    {
+      "id": "05-table",
+      "slug": "05-table",
+      "title": "À table",
+      "theme": "Cuisine",
+      "composition": "Fr05Table"
+    },
+    {
+      "id": "06-provence",
+      "slug": "06-provence",
+      "title": "La Provence",
+      "theme": "Culture",
+      "composition": "Fr06Provence"
+    },
+    {
+      "id": "07-louvre",
+      "slug": "07-louvre",
+      "title": "Le Louvre",
+      "theme": "Art",
+      "composition": "Fr07Louvre"
+    },
+    {
+      "id": "08-vin",
+      "slug": "08-vin",
+      "title": "Le vin",
+      "theme": "Cuisine",
+      "composition": "Fr08Vin"
+    },
+    {
+      "id": "09-lyon",
+      "slug": "09-lyon",
+      "title": "Lyon",
+      "theme": "Villes",
+      "composition": "Fr09Lyon"
+    },
+    {
+      "id": "10-cafe",
+      "slug": "10-cafe",
+      "title": "Le café",
+      "theme": "Culture",
+      "composition": "Fr10Cafe"
+    }
+  ]
+}

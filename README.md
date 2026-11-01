@@ -6,6 +6,7 @@ Vertical 9:16 stories with 2D + 3D vector plates.
 
 | ID | Story |
 | --- | --- |
+| `Fr01Sons` | Cours de français 01 — Les sons. Spoken French. Black and white. |
 | `Roux` | How to make a roux, from *Le Lapin Bleu*. British English. Black studio plates. |
 | `Roland303` | TB-303: from the 1981 flop to acid house |
 | `Juno60` | JUNO-60: DCO, chorus, and the polysynth that fitted on stage |
