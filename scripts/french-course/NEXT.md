@@ -3,14 +3,15 @@
 Read `state.json`. Build the lesson at `nextIndex` from `curriculum.json`.
 
 Rules:
-- Spoken French only, voice `Thomas (French (France))`, about 3 minutes
+- Spoken French only, female France voice `Shelley (French (France))` as Claire, about 3 minutes
 - French captions on screen
 - **2D only. No Three.js, no 3D models.** Black and white SVG + type animation
 - Be graphic: giant letters, syllable splits, word stacks, skyline marks, ribbons
 - Reuse `src/components/french2d/`
 - Remotion 1080×1920
 - Render to `docs/videos/fr-<id>.mp4`
-- Add `docs/francais/<slug>/index.html`
+- Add `docs/francais/<slug>/index.html` with `data-next` on the video and `docs/assets/player.js`
+- Point the previous lesson's `data-next` at this new page
 - Register composition in `src/Root.tsx`
 - Update `docs/index.html`
 - Commit, push to GitHub Pages

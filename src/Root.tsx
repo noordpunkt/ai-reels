@@ -1,10 +1,12 @@
 import "./index.css";
 import { Composition } from "remotion";
 import { Fr01Sons } from "./Fr01Sons";
+import { Fr02Marche } from "./Fr02Marche";
 import { Juno60 } from "./Juno60";
 import { Roland303 } from "./Roland303";
 import { Roux } from "./Roux";
 import { FR01_DURATION_FRAMES } from "./data/fr01-sons";
+import { FR02_DURATION_FRAMES } from "./data/fr02-marche";
 import { JUNO60_DURATION_FRAMES } from "./data/juno60";
 import { ROUX_DURATION_FRAMES } from "./data/roux";
 import { TB303_DURATION_FRAMES } from "./data/tb303";
@@ -17,6 +19,14 @@ export const RemotionRoot: React.FC = () => {
         id="Fr01Sons"
         component={Fr01Sons}
         durationInFrames={FR01_DURATION_FRAMES}
+        fps={STORY_FPS}
+        width={STORY_WIDTH}
+        height={STORY_HEIGHT}
+      />
+      <Composition
+        id="Fr02Marche"
+        component={Fr02Marche}
+        durationInFrames={FR02_DURATION_FRAMES}
         fps={STORY_FPS}
         width={STORY_WIDTH}
         height={STORY_HEIGHT}

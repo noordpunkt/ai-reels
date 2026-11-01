@@ -663,11 +663,12 @@ const MiniIcon: React.FC<{ kind: "butter" | "cheese" | "basket" | "tomato" }> = 
 
 export const MarketRow: React.FC<{
   items: Array<{ word: string; icon: "butter" | "cheese" | "basket" | "tomato" }>;
-}> = ({ items }) => {
+  pulse?: string;
+}> = ({ items, pulse }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const slot = Math.min(items.length - 1, Math.floor(frame / 58));
-  const active = items[slot].word;
+  const active = pulse ?? items[slot].word;
 
   return (
     <div
@@ -997,5 +998,224 @@ export const RLab: React.FC = () => {
         })}
       </div>
     </div>
+  );
+};
+
+export const PhraseStack: React.FC<{ phrases: string[] }> = ({ phrases }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const hot = phrases[Math.min(phrases.length - 1, Math.floor(frame / 48))];
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: "80px 64px 0",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 28,
+        fontFamily: FONT,
+        color: ink,
+      }}
+    >
+      {phrases.map((phrase, i) => {
+        const enter = spring({
+          frame: frame - i * 6,
+          fps,
+          config: { damping: 14, stiffness: 140 },
+        });
+        const on = phrase === hot;
+        return (
+          <div
+            key={phrase}
+            style={{
+              opacity: enter,
+              transform: `translateX(${interpolate(enter, [0, 1], [28, 0])}px)`,
+              fontSize: phrase.length > 14 ? 56 : 68,
+              fontWeight: 730,
+              letterSpacing: "-0.045em",
+              padding: "8px 18px",
+              color: on ? paper : ink,
+              background: on ? ink : "transparent",
+              width: "fit-content",
+            }}
+          >
+            {phrase}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export const NumberStrip: React.FC<{ values: string[] }> = ({ values }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const hot = Math.min(values.length - 1, Math.floor(frame / 36));
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 14,
+        fontFamily: FONT,
+      }}
+    >
+      {values.map((value, i) => {
+        const enter = spring({
+          frame: frame - i * 3,
+          fps,
+          config: { damping: 13, stiffness: 170 },
+        });
+        const on = i === hot;
+        return (
+          <div
+            key={value}
+            style={{
+              width: 112,
+              height: 150,
+              border: `2px solid ${ink}`,
+              background: on ? ink : "transparent",
+              color: on ? paper : ink,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 64,
+              fontWeight: 740,
+              transform: `scale(${0.88 + enter * 0.12})`,
+            }}
+          >
+            {value}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export const CoinEuro: React.FC = () => {
+  const frame = useCurrentFrame();
+  const ring = draw(frame, 0, 20, 360);
+  const mark = ramp(frame, 0, 1, 12, 26);
+  const amount =
+    frame < 70 ? "2 €" : frame < 120 ? "3 €" : frame < 170 ? "6 €" : "10 €";
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: FONT,
+        color: ink,
+      }}
+    >
+      <svg width="280" height="280" viewBox="0 0 280 280">
+        <circle cx="140" cy="140" r="108" {...stroke} strokeWidth="8" {...ring} />
+        <circle cx="140" cy="140" r="88" {...stroke} strokeWidth="3" opacity="0.45" />
+        <text
+          x="140"
+          y="162"
+          textAnchor="middle"
+          fill={ink}
+          fontSize="92"
+          fontWeight="750"
+          fontFamily={FONT}
+          opacity={mark}
+        >
+          €
+        </text>
+      </svg>
+      <div style={{ marginTop: 18, fontSize: 72, fontWeight: 740, letterSpacing: "-0.05em" }}>
+        {amount}
+      </div>
+    </div>
+  );
+};
+
+export const FruitRow: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const fruits = [
+    { word: "pomme", d: "M40 78 C 18 78, 14 118, 40 138 C 66 118, 62 78, 40 78 M40 78 C 48 58, 62 60, 58 74" },
+    { word: "poire", d: "M40 46 C 28 70, 18 96, 28 124 C 38 148, 62 148, 72 124 C 82 96, 52 70, 40 46 M40 46 C 44 34, 54 34, 52 46" },
+    { word: "pêche", d: "M40 80 C 16 80, 12 124, 40 142 C 68 124, 64 80, 40 80 M40 80 C 40 80, 52 68, 40 80" },
+  ];
+  const hot = fruits[Math.min(fruits.length - 1, Math.floor(frame / 55))].word;
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: "60px 48px 0",
+        display: "flex",
+        justifyContent: "center",
+        gap: 28,
+        fontFamily: FONT,
+      }}
+    >
+      {fruits.map((fruit, i) => {
+        const enter = spring({
+          frame: frame - i * 5,
+          fps,
+          config: { damping: 14, stiffness: 140 },
+        });
+        const on = fruit.word === hot;
+        return (
+          <div
+            key={fruit.word}
+            style={{
+              opacity: enter,
+              transform: `translateY(${interpolate(enter, [0, 1], [20, 0])}px)`,
+              color: on ? paper : ink,
+              background: on ? ink : "transparent",
+              padding: "28px 22px 22px",
+              textAlign: "center",
+              fontSize: 40,
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
+            }}
+          >
+            <svg width="80" height="160" viewBox="0 0 80 160">
+              <path d={fruit.d} fill="none" stroke="currentColor" strokeWidth="4" />
+            </svg>
+            {fruit.word}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export const StallAwning: React.FC = () => {
+  const frame = useCurrentFrame();
+  const drop = ramp(frame, -40, 0, 0, 18);
+
+  return (
+    <svg
+      width="920"
+      height="220"
+      viewBox="0 0 920 220"
+      style={{ display: "block", margin: "20px auto 0", transform: `translateY(${drop}px)` }}
+    >
+      <path d="M40 40 H880 V110 H40 Z" fill={ink} />
+      {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+        <path
+          key={i}
+          d={`M${40 + i * 105} 110 L${92 + i * 105} 190 L${145 + i * 105} 110`}
+          fill={i % 2 === 0 ? ink : paper}
+          stroke={ink}
+          strokeWidth="4"
+        />
+      ))}
+    </svg>
   );
 };
