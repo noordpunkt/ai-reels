@@ -31,8 +31,10 @@
   "scripts": {
     "dev": "remotion studio",
     "build": "remotion bundle",
-    "render:303": "remotion render Roland303 out/roland-303.mp4",
-    "render:juno": "remotion render Juno60 out/juno-60.mp4",
+    "render:roux": "remotion render Roux docs/videos/roux.mp4",
+    "render:303": "remotion render Roland303 docs/videos/roland-303.mp4",
+    "render:juno": "remotion render Juno60 docs/videos/juno-60.mp4",
+    "render:pages": "npm run render:roux && npm run render:303 && npm run render:juno",
     "audio:bw": "python3 scripts/generate-bw-audio.py",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc"
