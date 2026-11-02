@@ -81,8 +81,7 @@ const LineBlock: React.FC<{
           bottom: 96,
           opacity: enter * fadeOut,
           transform: `translateY(${interpolate(enter, [0, 1], [16, 0])}px)`,
-          fontFamily:
-            'ui-sans-serif, system-ui, -apple-system, "SF Pro Display", sans-serif',
+          fontFamily: "Apercu, system-ui, sans-serif",
           textAlign: "center",
         }}
       >
@@ -91,7 +90,7 @@ const LineBlock: React.FC<{
             margin: 0,
             color: "#F4F4F4",
             fontSize: size,
-            fontWeight: 620,
+            fontWeight: 500,
             letterSpacing: "-0.03em",
             lineHeight: 1.28,
             textWrap: "balance",
@@ -103,7 +102,7 @@ const LineBlock: React.FC<{
               key={`${word}-${i}`}
               style={{
                 opacity: i < revealed ? 1 : 0.32,
-                fontWeight: i < revealed ? 730 : 520,
+                fontWeight: i < revealed ? 700 : 400,
               }}
             >
               {word}

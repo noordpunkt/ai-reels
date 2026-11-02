@@ -1,12 +1,14 @@
-import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
+import "./loadApercu";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { FullLineCaptions } from "./components/FullLineCaptions";
 import { VoiceHits } from "./components/VoiceHits";
 import {
   CountMark,
-  Field,
   FlickerWord,
   GiantLetters,
   LetterCells,
+  MONO,
+  PerspectiveStage,
   SplitPair,
   SprayType,
   StackNo,
@@ -21,80 +23,54 @@ export const AceitesSemilla: React.FC = () => {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
+  const scene = aceitesCaptions.reduce(
+    (index, cue, i) => (frame >= cue.fromFrame ? i : index),
+    0,
+  );
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#080808", opacity: fade }}>
-      <Field />
-      <Sequence durationInFrames={225} name="grasas" layout="none">
-        <GiantLetters word="grasas" size={148} />
-      </Sequence>
-      <Sequence from={225} durationInFrames={178} name="manteca" layout="none">
-        <StrikeWord word="manteca" />
-      </Sequence>
-      <Sequence from={403} durationInFrames={236} name="recambio" layout="none">
-        <SplitPair left="grasa" right="botella" />
-      </Sequence>
-      <Sequence from={639} durationInFrames={233} name="calidad" layout="none">
-        <StepRow steps={["aceituna", "nata", "corto"]} />
-      </Sequence>
-      <Sequence from={872} durationInFrames={176} name="nada" layout="none">
-        <GiantLetters word="nada" size={180} />
-      </Sequence>
-      <Sequence from={1048} durationInFrames={207} name="extraer" layout="none">
-        <StepRow steps={["presión", "calor", "solvente"]} />
-      </Sequence>
-      <Sequence from={1255} durationInFrames={257} name="rbd" layout="none">
-        <LetterCells letters={["R", "B", "D"]} />
-      </Sequence>
-      <Sequence from={1512} durationInFrames={237} name="240" layout="none">
-        <CountMark to={240} unit="°" />
-      </Sequence>
-      <Sequence from={1749} durationInFrames={205} name="rancio" layout="none">
-        <FlickerWord word="rancio" />
-      </Sequence>
-      <Sequence from={1954} durationInFrames={155} name="oscuro" layout="none">
-        <SplitPair left="oscuro" right="claro" />
-      </Sequence>
-      <Sequence from={2109} durationInFrames={254} name="spray" layout="none">
-        <SprayType word="spray" />
-      </Sequence>
-      <Sequence from={2363} durationInFrames={161} name="no-pasa" layout="none">
-        <StackNo lines={["oliva no", "manteca no", "grasa buena no"]} />
-      </Sequence>
-      <Sequence from={2524} durationInFrames={246} name="inflaman" layout="none">
-        <StepRow steps={["girasol", "soja", "maíz", "canola"]} />
-      </Sequence>
-      <Sequence from={2770} durationInFrames={243} name="margarina" layout="none">
-        <StrikeWord word="margarina" />
-      </Sequence>
-      <Sequence from={3013} durationInFrames={210} name="papas" layout="none">
-        <GiantLetters word="papas" size={150} />
-      </Sequence>
-      <Sequence from={3223} durationInFrames={169} name="oleico" layout="none">
-        <GiantLetters word="alto oleico" size={92} />
-      </Sequence>
-      <Sequence from={3392} durationInFrames={210} name="virgen" layout="none">
-        <GiantLetters word="virgen extra" size={88} />
-      </Sequence>
-      <Sequence from={3602} durationInFrames={235} name="etiqueta" layout="none">
-        <StepRow steps={["virgen extra", "o mezclado"]} />
-      </Sequence>
-      <Sequence from={3837} durationInFrames={207} name="salud" layout="none">
-        <StackNo lines={["menos industria", "más comida"]} />
-      </Sequence>
-      <Sequence from={4044} durationInFrames={270} name="cierre" layout="none">
-        <GiantLetters word="virgen extra" size={88} />
-      </Sequence>
+      <PerspectiveStage>
+        {scene === 0 ? <GiantLetters word="grasas" size={112} /> : null}
+        {scene === 1 ? <StrikeWord word="manteca" /> : null}
+        {scene === 2 ? <SplitPair left="grasa" right="botella" /> : null}
+        {scene === 3 ? <StepRow steps={["aceituna", "nata", "corto"]} /> : null}
+        {scene === 4 ? <GiantLetters word="nada" size={128} /> : null}
+        {scene === 5 ? (
+          <StepRow steps={["presión", "calor", "solvente"]} />
+        ) : null}
+        {scene === 6 ? <LetterCells letters={["R", "B", "D"]} /> : null}
+        {scene === 7 ? <CountMark to={240} unit="°" /> : null}
+        {scene === 8 ? <FlickerWord word="rancio" /> : null}
+        {scene === 9 ? <SplitPair left="oscuro" right="claro" /> : null}
+        {scene === 10 ? <SprayType word="spray" /> : null}
+        {scene === 11 ? (
+          <StackNo lines={["oliva no", "manteca no", "grasa buena no"]} />
+        ) : null}
+        {scene === 12 ? (
+          <StepRow steps={["girasol", "soja", "maíz", "canola"]} />
+        ) : null}
+        {scene === 13 ? <StrikeWord word="margarina" /> : null}
+        {scene === 14 ? <GiantLetters word="papas" size={118} /> : null}
+        {scene === 15 ? <GiantLetters word="alto oleico" size={72} /> : null}
+        {scene === 16 ? <GiantLetters word="virgen extra" size={68} /> : null}
+        {scene === 17 ? (
+          <StepRow steps={["virgen extra", "o mezclado"]} />
+        ) : null}
+        {scene === 18 ? (
+          <StackNo lines={["menos industria", "más comida"]} />
+        ) : null}
+        {scene === 19 ? <GiantLetters word="virgen extra" size={68} /> : null}
+      </PerspectiveStage>
       <div
         style={{
           position: "absolute",
           top: 52,
           left: 56,
           color: "rgba(255,255,255,0.55)",
-          fontSize: 16,
-          letterSpacing: "0.26em",
-          fontFamily:
-            'ui-sans-serif, system-ui, -apple-system, "SF Pro Display", sans-serif',
+          fontSize: 15,
+          letterSpacing: "0.22em",
+          fontFamily: MONO,
         }}
       >
         ACEITES DE SEMILLA
