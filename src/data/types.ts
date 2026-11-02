@@ -9,6 +9,7 @@ export type OverlayCue = {
   big: string;
   highlight?: string;
   voice: string;
+  spokenFrames?: number;
 };
 
 export type Hit = number;

@@ -1,24 +1,20 @@
-import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
-import { StoryCaptions } from "./components/StoryCaptions";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { FullLineCaptions } from "./components/FullLineCaptions";
 import { VoiceHits } from "./components/VoiceHits";
-import { paper } from "./components/french2d/Draw";
-import { Field, Stage, TitleWord } from "./components/french2d/Vectors";
+import { OilStage } from "./components/three/OilStage";
 import {
-  BottlePair,
-  ButterPat,
-  ClearBottle,
-  ExtraVirgin,
-  FryPot,
-  HeatMark,
-  OlivePress,
-  PalateTest,
-  PanFilm,
-  PairSwap,
-  ProcessRow,
-  RbdMark,
-  SeedNames,
-  SprayCan,
-} from "./components/seed2d/Vectors";
+  ButterBlock,
+  FryPot3D,
+  FryingPan,
+  HeatColumn,
+  LetterBlocks,
+  OilBottle,
+  OliveFruit,
+  Press,
+  SeedRow,
+  SprayBottle,
+  SunflowerSeed,
+} from "./components/three/OilModels";
 import { aceitesCaptions } from "./data/aceites-semilla";
 
 export const AceitesSemilla: React.FC = () => {
@@ -27,115 +23,79 @@ export const AceitesSemilla: React.FC = () => {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
+  const scene = aceitesCaptions.reduce(
+    (index, cue, i) => (frame >= cue.fromFrame ? i : index),
+    0,
+  );
+  const current = aceitesCaptions[scene];
+  const stamp = current?.small ?? "";
+  const stampIn = interpolate(
+    frame - (current?.fromFrame ?? 0),
+    [0, 10],
+    [0, 1],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+  );
+  const framing = frameFor(scene);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: paper, opacity: fade }}>
-      <Field />
-      <Sequence durationInFrames={398} name="intro" layout="none">
-        <Stage>
-          <TitleWord word="grasas" note="0:00  ·  4:30" />
-        </Stage>
-      </Sequence>
-      <Sequence from={398} durationInFrames={355} name="manteca" layout="none">
-        <Stage>
-          <div style={{ marginTop: 180 }}>
-            <ButterPat />
-          </div>
-        </Stage>
-      </Sequence>
-      <Sequence from={753} durationInFrames={436} name="recambio" layout="none">
-        <Stage>
-          <PairSwap />
-        </Stage>
-      </Sequence>
-      <Sequence from={1189} durationInFrames={405} name="oliva" layout="none">
-        <Stage>
-          <OlivePress yields />
-        </Stage>
-      </Sequence>
-      <Sequence from={1594} durationInFrames={352} name="semilla" layout="none">
-        <Stage>
-          <OlivePress yields={false} />
-        </Stage>
-      </Sequence>
-      <Sequence from={1946} durationInFrames={403} name="extraer" layout="none">
-        <Stage>
-          <ProcessRow
-            steps={["presión", "calor", "solvente"]}
-            active={Math.min(2, Math.floor((frame - 1946) / 90))}
-          />
-        </Stage>
-      </Sequence>
-      <Sequence from={2349} durationInFrames={467} name="rbd" layout="none">
-        <Stage>
-          <RbdMark />
-        </Stage>
-      </Sequence>
-      <Sequence from={2816} durationInFrames={437} name="240" layout="none">
-        <Stage>
-          <HeatMark />
-        </Stage>
-      </Sequence>
-      <Sequence from={3253} durationInFrames={392} name="luz" layout="none">
-        <Stage>
-          <ClearBottle fill={0.8} />
-        </Stage>
-      </Sequence>
-      <Sequence from={3645} durationInFrames={338} name="oscuro" layout="none">
-        <Stage>
-          <BottlePair />
-        </Stage>
-      </Sequence>
-      <Sequence from={3983} durationInFrames={464} name="spray" layout="none">
-        <Stage>
-          <SprayCan />
-        </Stage>
-      </Sequence>
-      <Sequence from={4447} durationInFrames={324} name="no-pasa" layout="none">
-        <Stage>
-          <PanFilm />
-        </Stage>
-      </Sequence>
-      <Sequence from={4771} durationInFrames={427} name="inflaman" layout="none">
-        <Stage>
-          <SeedNames />
-        </Stage>
-      </Sequence>
-      <Sequence from={5198} durationInFrames={437} name="margarina" layout="none">
-        <Stage>
-          <PalateTest />
-        </Stage>
-      </Sequence>
-      <Sequence from={5635} durationInFrames={367} name="papas" layout="none">
-        <Stage>
-          <FryPot />
-        </Stage>
-      </Sequence>
-      <Sequence from={6002} durationInFrames={391} name="oleico" layout="none">
-        <Stage>
-          <TitleWord word="alto oleico" note="solo dura más" size={110} />
-        </Stage>
-      </Sequence>
-      <Sequence from={6393} durationInFrames={395} name="virgen" layout="none">
-        <Stage>
-          <ExtraVirgin />
-        </Stage>
-      </Sequence>
-      <Sequence from={6788} durationInFrames={423} name="etiqueta" layout="none">
-        <Stage>
-          <TitleWord word="virgen extra" note="lee la etiqueta" size={110} />
-        </Stage>
-      </Sequence>
-      <Sequence from={7211} durationInFrames={434} name="salud" layout="none">
-        <Stage>
-          <TitleWord word="más comida" note="menos industria" size={120} />
-        </Stage>
-      </Sequence>
-      <Sequence from={7645} durationInFrames={455} name="cierre" layout="none">
-        <Stage>
-          <TitleWord word="virgen extra" note="0:00  ·  4:30" size={120} />
-        </Stage>
-      </Sequence>
+    <AbsoluteFill style={{ backgroundColor: "#0B0B0B", opacity: fade }}>
+      <OilStage camera={framing.camera} lookAt={framing.lookAt}>
+        {scene === 0 ? (
+          <group>
+            <group position={[0, 0, 0.2]} scale={0.9}>
+              <ButterBlock />
+            </group>
+            <OilBottle x={-0.98} />
+            <OilBottle x={0.98} darkGlass />
+          </group>
+        ) : null}
+        {scene === 1 ? <ButterBlock crossed /> : null}
+        {scene === 2 ? <OilBottle /> : null}
+        {scene === 3 ? (
+          <group>
+            <OliveFruit />
+            <group position={[1.35, 0, 0]}>
+              <Press dripping />
+            </group>
+          </group>
+        ) : null}
+        {scene === 4 ? (
+          <group>
+            <SunflowerSeed />
+            <group position={[1.35, 0, 0]}>
+              <Press />
+            </group>
+          </group>
+        ) : null}
+        {scene === 5 ? (
+          <group>
+            <Press dripping />
+            <group position={[1.2, 0, 0]}>
+              <HeatColumn />
+            </group>
+          </group>
+        ) : null}
+        {scene === 6 ? <LetterBlocks letters={["R", "B", "D"]} /> : null}
+        {scene === 7 ? <HeatColumn /> : null}
+        {scene === 8 ? <OilBottle /> : null}
+        {scene === 9 ? (
+          <group>
+            <OilBottle x={-0.88} darkGlass />
+            <OilBottle x={0.88} />
+          </group>
+        ) : null}
+        {scene === 10 ? <SprayBottle /> : null}
+        {scene === 11 ? <FryingPan /> : null}
+        {scene === 12 ? <SeedRow /> : null}
+        {scene === 13 ? <ButterBlock crossed /> : null}
+        {scene === 14 ? <FryPot3D /> : null}
+        {scene === 15 ? <FryingPan film /> : null}
+        {scene === 16 || scene === 17 || scene === 19 ? (
+          <OilBottle darkGlass />
+        ) : null}
+        {scene === 18 ? <OliveFruit /> : null}
+      </OilStage>
+      <Stamp word={stamp} enter={stampIn} />
       <div
         style={{
           position: "absolute",
@@ -150,8 +110,57 @@ export const AceitesSemilla: React.FC = () => {
       >
         ACEITES DE SEMILLA
       </div>
-      <StoryCaptions cues={aceitesCaptions} />
+      <FullLineCaptions cues={aceitesCaptions} />
       <VoiceHits cues={aceitesCaptions} />
     </AbsoluteFill>
+  );
+};
+
+const frameFor = (
+  scene: number,
+): { camera: [number, number, number]; lookAt: [number, number, number] } => {
+  if (scene === 0 || scene === 9) {
+    return { camera: [0.12, 1.75, 5.7], lookAt: [0, 0.6, 0] };
+  }
+  if (scene === 6 || scene === 12) {
+    return { camera: [0.2, 1.55, 4.8], lookAt: [0, 0.4, 0] };
+  }
+  if (scene === 8 || scene === 10 || scene === 16 || scene === 17 || scene === 19) {
+    return { camera: [1.35, 1.45, 4.15], lookAt: [0, 0.85, 0] };
+  }
+  if (scene === 2) {
+    return { camera: [1.35, 1.45, 4.15], lookAt: [0, 0.85, 0] };
+  }
+  return { camera: [1.55, 1.55, 4.35], lookAt: [0, 0.4, 0] };
+};
+
+const Stamp: React.FC<{ word: string; enter: number }> = ({ word, enter }) => {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: 48,
+        right: 48,
+        top: "9%",
+        textAlign: "center",
+        pointerEvents: "none",
+        opacity: 0.92,
+        transform: `translateY(${(1 - enter) * 10}px)`,
+        fontFamily:
+          'ui-sans-serif, system-ui, -apple-system, "SF Pro Display", sans-serif',
+      }}
+    >
+      <div
+        style={{
+          color: "#F4F4F4",
+          fontSize: word.length > 10 ? 72 : 108,
+          fontWeight: 730,
+          letterSpacing: "-0.06em",
+          textShadow: "0 8px 40px rgba(0,0,0,0.65)",
+        }}
+      >
+        {word}
+      </div>
+    </div>
   );
 };

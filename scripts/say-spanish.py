@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Speak Latin-American Spanish lines and write 16-bit WAV."""
+"""Speak Spanish (Spain) lines and write 16-bit WAV."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ import sys
 import wave
 from pathlib import Path
 
-VOICE = "Paulina (Spanish (Mexico))"
+VOICE = "Mónica"
 RATE = "152"
 ROOT = Path(__file__).resolve().parent.parent
 AUDIO = ROOT / "public" / "audio"
@@ -23,6 +23,9 @@ def duration(path: Path) -> float:
 def speak(text: str, wav_path: Path) -> float:
     aiff = wav_path.with_suffix(".aiff")
     wav_path.parent.mkdir(parents=True, exist_ok=True)
+    listed = subprocess.check_output(["say", "-v", "?"], text=True)
+    if not any(line.startswith(VOICE + " ") or line.startswith(VOICE + "\t") for line in listed.splitlines()):
+        raise SystemExit(f"voice {VOICE!r} is not installed; refuse to fall back")
     subprocess.check_call(
         ["say", "-v", VOICE, "-r", RATE, "-o", str(aiff), text]
     )
