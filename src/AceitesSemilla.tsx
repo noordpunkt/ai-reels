@@ -15,6 +15,12 @@ import {
   StepRow,
   StrikeWord,
 } from "./components/oil2d/Kinetic";
+import {
+  BordierGrid,
+  BordierWrap,
+  CarapelliBottle,
+  PairProducts,
+} from "./components/oil2d/Products";
 import { aceitesCaptions } from "./data/aceites-semilla";
 
 export const AceitesSemilla: React.FC = () => {
@@ -31,10 +37,10 @@ export const AceitesSemilla: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#080808", opacity: fade }}>
       <PerspectiveStage>
-        {scene === 0 ? <GiantLetters word="grasas" size={112} /> : null}
-        {scene === 1 ? <StrikeWord word="manteca" /> : null}
+        {scene === 0 ? <PairProducts /> : null}
+        {scene === 1 ? <BordierWrap scale={1.12} /> : null}
         {scene === 2 ? <SplitPair left="grasa" right="botella" /> : null}
-        {scene === 3 ? <StepRow steps={["aceituna", "nata", "corto"]} /> : null}
+        {scene === 3 ? <BordierGrid /> : null}
         {scene === 4 ? <GiantLetters word="nada" size={128} /> : null}
         {scene === 5 ? (
           <StepRow steps={["presión", "calor", "solvente"]} />
@@ -42,25 +48,21 @@ export const AceitesSemilla: React.FC = () => {
         {scene === 6 ? <LetterCells letters={["R", "B", "D"]} /> : null}
         {scene === 7 ? <CountMark to={240} unit="°" /> : null}
         {scene === 8 ? <FlickerWord word="rancio" /> : null}
-        {scene === 9 ? <SplitPair left="oscuro" right="claro" /> : null}
+        {scene === 9 ? <CarapelliBottle scale={1.05} /> : null}
         {scene === 10 ? <SprayType word="spray" /> : null}
-        {scene === 11 ? (
-          <StackNo lines={["oliva no", "manteca no", "grasa buena no"]} />
-        ) : null}
+        {scene === 11 ? <PairProducts /> : null}
         {scene === 12 ? (
           <StepRow steps={["girasol", "soja", "maíz", "canola"]} />
         ) : null}
         {scene === 13 ? <StrikeWord word="margarina" /> : null}
         {scene === 14 ? <GiantLetters word="papas" size={118} /> : null}
         {scene === 15 ? <GiantLetters word="alto oleico" size={72} /> : null}
-        {scene === 16 ? <GiantLetters word="virgen extra" size={68} /> : null}
-        {scene === 17 ? (
-          <StepRow steps={["virgen extra", "o mezclado"]} />
-        ) : null}
+        {scene === 16 ? <CarapelliBottle scale={1.08} /> : null}
+        {scene === 17 ? <CarapelliBottle scale={1.08} /> : null}
         {scene === 18 ? (
           <StackNo lines={["menos industria", "más comida"]} />
         ) : null}
-        {scene === 19 ? <GiantLetters word="virgen extra" size={68} /> : null}
+        {scene === 19 ? <CarapelliBottle scale={1.08} /> : null}
       </PerspectiveStage>
       <div
         style={{

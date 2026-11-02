@@ -4,12 +4,15 @@ import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 export const FONT = "Apercu, system-ui, sans-serif";
 export const MONO = "Apercu Mono, ui-monospace, monospace";
 
+export const stageYaw = (frame: number) => Math.sin(frame * 0.01) * 10;
+export const stagePitch = (frame: number) => 61 + Math.sin(frame * 0.007) * 2.4;
+
 export const PerspectiveStage: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const frame = useCurrentFrame();
-  const yaw = Math.sin(frame * 0.01) * 10;
-  const pitch = 61 + Math.sin(frame * 0.007) * 2.4;
+  const yaw = stageYaw(frame);
+  const pitch = stagePitch(frame);
 
   return (
     <div
