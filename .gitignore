@@ -8,3 +8,4 @@ dist
 out
 public/*.mp4
 !public/audio/*.wav
+.vercel
