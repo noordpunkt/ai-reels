@@ -36,6 +36,7 @@
     "render:juno": "remotion render Juno60 docs/videos/juno-60.mp4",
     "render:fr01": "remotion render Fr01Sons docs/videos/fr-01-sons.mp4",
     "render:fr02": "remotion render Fr02Marche docs/videos/fr-02-marche.mp4",
+    "render:aceites": "remotion render AceitesSemilla docs/videos/aceites-semilla.mp4",
     "render:pages": "npm run render:roux && npm run render:303 && npm run render:juno",
     "audio:bw": "python3 scripts/generate-bw-audio.py",
     "upgrade": "remotion upgrade",
