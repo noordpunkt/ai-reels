@@ -1,101 +1,90 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
 import { FullLineCaptions } from "./components/FullLineCaptions";
 import { VoiceHits } from "./components/VoiceHits";
-import { OilStage } from "./components/three/OilStage";
 import {
-  ButterBlock,
-  FryPot3D,
-  FryingPan,
-  HeatColumn,
-  LetterBlocks,
-  OilBottle,
-  OliveFruit,
-  Press,
-  SeedRow,
-  SprayBottle,
-  SunflowerSeed,
-} from "./components/three/OilModels";
+  CountMark,
+  Field,
+  FlickerWord,
+  GiantLetters,
+  LetterCells,
+  SplitPair,
+  SprayType,
+  StackNo,
+  StepRow,
+  StrikeWord,
+} from "./components/oil2d/Kinetic";
 import { aceitesCaptions } from "./data/aceites-semilla";
 
 export const AceitesSemilla: React.FC = () => {
   const frame = useCurrentFrame();
-  const fade = interpolate(frame, [8068, 8100], [1, 0], {
+  const fade = interpolate(frame, [4290, 4314], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const scene = aceitesCaptions.reduce(
-    (index, cue, i) => (frame >= cue.fromFrame ? i : index),
-    0,
-  );
-  const current = aceitesCaptions[scene];
-  const stamp = current?.small ?? "";
-  const stampIn = interpolate(
-    frame - (current?.fromFrame ?? 0),
-    [0, 10],
-    [0, 1],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-  );
-  const framing = frameFor(scene);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#0B0B0B", opacity: fade }}>
-      <OilStage camera={framing.camera} lookAt={framing.lookAt}>
-        {scene === 0 ? (
-          <group>
-            <group position={[0, 0, 0.2]} scale={0.9}>
-              <ButterBlock />
-            </group>
-            <OilBottle x={-0.98} />
-            <OilBottle x={0.98} darkGlass />
-          </group>
-        ) : null}
-        {scene === 1 ? <ButterBlock crossed /> : null}
-        {scene === 2 ? <OilBottle /> : null}
-        {scene === 3 ? (
-          <group>
-            <OliveFruit />
-            <group position={[1.35, 0, 0]}>
-              <Press dripping />
-            </group>
-          </group>
-        ) : null}
-        {scene === 4 ? (
-          <group>
-            <SunflowerSeed />
-            <group position={[1.35, 0, 0]}>
-              <Press />
-            </group>
-          </group>
-        ) : null}
-        {scene === 5 ? (
-          <group>
-            <Press dripping />
-            <group position={[1.2, 0, 0]}>
-              <HeatColumn />
-            </group>
-          </group>
-        ) : null}
-        {scene === 6 ? <LetterBlocks letters={["R", "B", "D"]} /> : null}
-        {scene === 7 ? <HeatColumn /> : null}
-        {scene === 8 ? <OilBottle /> : null}
-        {scene === 9 ? (
-          <group>
-            <OilBottle x={-0.88} darkGlass />
-            <OilBottle x={0.88} />
-          </group>
-        ) : null}
-        {scene === 10 ? <SprayBottle /> : null}
-        {scene === 11 ? <FryingPan /> : null}
-        {scene === 12 ? <SeedRow /> : null}
-        {scene === 13 ? <ButterBlock crossed /> : null}
-        {scene === 14 ? <FryPot3D /> : null}
-        {scene === 15 ? <FryingPan film /> : null}
-        {scene === 16 || scene === 17 || scene === 19 ? (
-          <OilBottle darkGlass />
-        ) : null}
-        {scene === 18 ? <OliveFruit /> : null}
-      </OilStage>
-      <Stamp word={stamp} enter={stampIn} />
+    <AbsoluteFill style={{ backgroundColor: "#080808", opacity: fade }}>
+      <Field />
+      <Sequence durationInFrames={225} name="grasas" layout="none">
+        <GiantLetters word="grasas" size={148} />
+      </Sequence>
+      <Sequence from={225} durationInFrames={178} name="manteca" layout="none">
+        <StrikeWord word="manteca" />
+      </Sequence>
+      <Sequence from={403} durationInFrames={236} name="recambio" layout="none">
+        <SplitPair left="grasa" right="botella" />
+      </Sequence>
+      <Sequence from={639} durationInFrames={233} name="calidad" layout="none">
+        <StepRow steps={["aceituna", "nata", "corto"]} />
+      </Sequence>
+      <Sequence from={872} durationInFrames={176} name="nada" layout="none">
+        <GiantLetters word="nada" size={180} />
+      </Sequence>
+      <Sequence from={1048} durationInFrames={207} name="extraer" layout="none">
+        <StepRow steps={["presión", "calor", "solvente"]} />
+      </Sequence>
+      <Sequence from={1255} durationInFrames={257} name="rbd" layout="none">
+        <LetterCells letters={["R", "B", "D"]} />
+      </Sequence>
+      <Sequence from={1512} durationInFrames={237} name="240" layout="none">
+        <CountMark to={240} unit="°" />
+      </Sequence>
+      <Sequence from={1749} durationInFrames={205} name="rancio" layout="none">
+        <FlickerWord word="rancio" />
+      </Sequence>
+      <Sequence from={1954} durationInFrames={155} name="oscuro" layout="none">
+        <SplitPair left="oscuro" right="claro" />
+      </Sequence>
+      <Sequence from={2109} durationInFrames={254} name="spray" layout="none">
+        <SprayType word="spray" />
+      </Sequence>
+      <Sequence from={2363} durationInFrames={161} name="no-pasa" layout="none">
+        <StackNo lines={["oliva no", "manteca no", "grasa buena no"]} />
+      </Sequence>
+      <Sequence from={2524} durationInFrames={246} name="inflaman" layout="none">
+        <StepRow steps={["girasol", "soja", "maíz", "canola"]} />
+      </Sequence>
+      <Sequence from={2770} durationInFrames={243} name="margarina" layout="none">
+        <StrikeWord word="margarina" />
+      </Sequence>
+      <Sequence from={3013} durationInFrames={210} name="papas" layout="none">
+        <GiantLetters word="papas" size={150} />
+      </Sequence>
+      <Sequence from={3223} durationInFrames={169} name="oleico" layout="none">
+        <GiantLetters word="alto oleico" size={92} />
+      </Sequence>
+      <Sequence from={3392} durationInFrames={210} name="virgen" layout="none">
+        <GiantLetters word="virgen extra" size={88} />
+      </Sequence>
+      <Sequence from={3602} durationInFrames={235} name="etiqueta" layout="none">
+        <StepRow steps={["virgen extra", "o mezclado"]} />
+      </Sequence>
+      <Sequence from={3837} durationInFrames={207} name="salud" layout="none">
+        <StackNo lines={["menos industria", "más comida"]} />
+      </Sequence>
+      <Sequence from={4044} durationInFrames={270} name="cierre" layout="none">
+        <GiantLetters word="virgen extra" size={88} />
+      </Sequence>
       <div
         style={{
           position: "absolute",
@@ -113,54 +102,5 @@ export const AceitesSemilla: React.FC = () => {
       <FullLineCaptions cues={aceitesCaptions} />
       <VoiceHits cues={aceitesCaptions} />
     </AbsoluteFill>
-  );
-};
-
-const frameFor = (
-  scene: number,
-): { camera: [number, number, number]; lookAt: [number, number, number] } => {
-  if (scene === 0 || scene === 9) {
-    return { camera: [0.12, 1.75, 5.7], lookAt: [0, 0.6, 0] };
-  }
-  if (scene === 6 || scene === 12) {
-    return { camera: [0.2, 1.55, 4.8], lookAt: [0, 0.4, 0] };
-  }
-  if (scene === 8 || scene === 10 || scene === 16 || scene === 17 || scene === 19) {
-    return { camera: [1.35, 1.45, 4.15], lookAt: [0, 0.85, 0] };
-  }
-  if (scene === 2) {
-    return { camera: [1.35, 1.45, 4.15], lookAt: [0, 0.85, 0] };
-  }
-  return { camera: [1.55, 1.55, 4.35], lookAt: [0, 0.4, 0] };
-};
-
-const Stamp: React.FC<{ word: string; enter: number }> = ({ word, enter }) => {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        left: 48,
-        right: 48,
-        top: "9%",
-        textAlign: "center",
-        pointerEvents: "none",
-        opacity: 0.92,
-        transform: `translateY(${(1 - enter) * 10}px)`,
-        fontFamily:
-          'ui-sans-serif, system-ui, -apple-system, "SF Pro Display", sans-serif',
-      }}
-    >
-      <div
-        style={{
-          color: "#F4F4F4",
-          fontSize: word.length > 10 ? 72 : 108,
-          fontWeight: 730,
-          letterSpacing: "-0.06em",
-          textShadow: "0 8px 40px rgba(0,0,0,0.65)",
-        }}
-      >
-        {word}
-      </div>
-    </div>
   );
 };

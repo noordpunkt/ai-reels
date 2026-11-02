@@ -53,7 +53,7 @@ const LineBlock: React.FC<{
     [0, words.length],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
-  const size = text.length > 160 ? 32 : text.length > 110 ? 36 : text.length > 80 ? 40 : 44;
+  const size = text.length > 160 ? 34 : text.length > 110 ? 38 : text.length > 80 ? 42 : 48;
   const fadeOut = interpolate(frame, [hold - 10, hold], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -67,9 +67,9 @@ const LineBlock: React.FC<{
           left: 0,
           right: 0,
           bottom: 0,
-          height: 560,
+          height: 480,
           background:
-            "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.72) 42%, rgba(0,0,0,0) 100%)",
+            "linear-gradient(to top, rgba(8,8,8,0.96) 0%, rgba(8,8,8,0.78) 48%, rgba(8,8,8,0) 100%)",
           opacity: enter * fadeOut,
         }}
       />
@@ -78,7 +78,7 @@ const LineBlock: React.FC<{
           position: "absolute",
           left: 44,
           right: 44,
-          bottom: 132,
+          bottom: 96,
           opacity: enter * fadeOut,
           transform: `translateY(${interpolate(enter, [0, 1], [16, 0])}px)`,
           fontFamily:
